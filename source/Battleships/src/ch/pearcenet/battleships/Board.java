@@ -49,27 +49,39 @@ public class Board {
 		//Verify input format
 		boolean isValid = false;
 		String guess = "";
+		int x = 0;
+		int y = 0;
+		
 		while (!isValid) {
 			isValid = true;
 			System.out.print("> ");
 			guess = UI.input.nextLine();
 			
 			//verification
-			if (guess.length() > 2 || 
+			if (guess.length() != 2 ||
 				guess.toUpperCase().charAt(0) < 'A' ||
 				guess.toUpperCase().charAt(0) > 'Z' ||
 				guess.charAt(1) < '1' ||
 				guess.charAt(1) > '9'){
-				
+					
 				System.out.println("Please only enter valid guesses. (e.g. A1)");
 				isValid = false;
+			} else {
+				x = guess.toUpperCase().charAt(0) - 'A';
+				y = guess.charAt(1) - '1';
+				
+				//Verify the coordinates are within the board
+				if (x < 0 || y < 0 ||
+					x >= ships.length ||
+					y >= ships.length) {
+					
+					System.out.println("Please only enter valid guesses. " + guess + " is outside of the board.");
+					isValid = false;
+				}
 			}
 		}
 		
 		//Check that position on the victims board
-		int x = guess.toUpperCase().charAt(0) - 'A' + 1;
-		int y = guess.charAt(1) - '1' + 1;
-		
 		if (victim.ships[y][x] == 'B') {
 			System.out.println("Hit!");
 			victim.ships[y][x] = 'X';
@@ -175,9 +187,9 @@ public class Board {
 	public void drawBoard() {
 		
 		//Display our ships
-		System.out.println("Our ships:");
+		System.out.println("Your ships:");
 		drawMatrix(ships);
-		System.out.println("\nOur guesses:");
+		System.out.println("\nYour guesses:");
 		drawMatrix(guess);
 		
 	}

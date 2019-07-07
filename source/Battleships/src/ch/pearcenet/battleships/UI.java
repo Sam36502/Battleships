@@ -96,10 +96,10 @@ public class UI {
 					"                     '----`                                                             ");
 			System.out.println("Player " + winner + ", you win!\n");
 			
-			long timeTaken = endTime - startTime;
+			long timeTaken = endTime - startTime - 3600000L;
 			String formattedTime = new SimpleDateFormat("HH:mm:ss").format(new Date(timeTaken));
 			
-			System.out.println("The game lasted " + round + "rounds and took a total time of: " + formattedTime);
+			System.out.println("The game lasted " + round + " rounds and took a total time of: " + formattedTime);
 			System.out.println("Press enter to return to the main menu...");
 			input.nextLine();
 			cls();
