@@ -49,6 +49,9 @@ public class Board {
 		//Verify input format
 		boolean isValid = false;
 		String guess = "";
+		int x = 0;
+		int y = 0;
+		
 		while (!isValid) {
 			isValid = true;
 			System.out.print("> ");
@@ -61,15 +64,21 @@ public class Board {
 				guess.charAt(1) < '1' ||
 				guess.charAt(1) > '9'){
 				
-				System.out.println("Please only enter valid guesses. (e.g. A1)");
-				isValid = false;
+				x = guess.toUpperCase().charAt(0) - 'A';
+				y = guess.charAt(1) - '1';
+				
+				//Verify the coordinates are within the board
+				if (x < 0 || y < 0 ||
+					x >= ships.length ||
+					y >= ships.length) {
+					
+					System.out.println("Please only enter valid guesses. (e.g. A1)");
+					isValid = false;
+				}
 			}
 		}
 		
 		//Check that position on the victims board
-		int x = guess.toUpperCase().charAt(0) - 'A';
-		int y = guess.charAt(1) - '1';
-		
 		if (victim.ships[y][x] == 'B') {
 			System.out.println("Hit!");
 			victim.ships[y][x] = 'X';
