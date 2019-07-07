@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class UI {
 	
 	//Current version
-	private static final String VERSION = "1.0";
+	private static final String VERSION = "1.0.1";
 	
 	//Input scanner
 	protected static Scanner input = new Scanner(System.in);
@@ -55,6 +55,8 @@ public class UI {
 				System.out.println("It is Player 1's turn.\n"
 						+ "Player 1, press enter when ready...");
 				input.nextLine();
+				cls();
+				
 				board1.attack(board2);
 				
 				//Check for winners
@@ -63,11 +65,14 @@ public class UI {
 					winner = 1;
 					continue;
 				}
+				cls();
 				
 				//Player 2's turn
 				System.out.println("It is Player 2's turn.\n"
 						+ "Player 2, press enter when ready...");
 				input.nextLine();
+				cls();
+				
 				board2.attack(board1);
 				
 				//Check for winners
@@ -76,6 +81,7 @@ public class UI {
 					winner = 2;
 					continue;
 				}
+				cls();
 				
 			}
 			
