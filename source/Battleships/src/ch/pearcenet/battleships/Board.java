@@ -58,12 +58,15 @@ public class Board {
 			guess = UI.input.nextLine();
 			
 			//verification
-			if (guess.length() > 2 || 
+			if (guess.length() != 2 ||
 				guess.toUpperCase().charAt(0) < 'A' ||
 				guess.toUpperCase().charAt(0) > 'Z' ||
 				guess.charAt(1) < '1' ||
 				guess.charAt(1) > '9'){
-				
+					
+				System.out.println("Please only enter valid guesses. (e.g. A1)");
+				isValid = false;
+			} else {
 				x = guess.toUpperCase().charAt(0) - 'A';
 				y = guess.charAt(1) - '1';
 				
@@ -72,7 +75,7 @@ public class Board {
 					x >= ships.length ||
 					y >= ships.length) {
 					
-					System.out.println("Please only enter valid guesses. (e.g. A1)");
+					System.out.println("Please only enter valid guesses. " + guess + " is outside of the board.");
 					isValid = false;
 				}
 			}
