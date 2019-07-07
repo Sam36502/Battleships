@@ -65,7 +65,6 @@ public class UI {
 					winner = 1;
 					continue;
 				}
-				cls();
 				
 				//Player 2's turn
 				System.out.println("It is Player 2's turn.\n"
@@ -81,7 +80,6 @@ public class UI {
 					winner = 2;
 					continue;
 				}
-				cls();
 				
 			}
 			
@@ -98,10 +96,10 @@ public class UI {
 					"                     '----`                                                             ");
 			System.out.println("Player " + winner + ", you win!\n");
 			
-			long timeTaken = endTime - startTime;
+			long timeTaken = endTime - startTime - 3600000L;
 			String formattedTime = new SimpleDateFormat("HH:mm:ss").format(new Date(timeTaken));
 			
-			System.out.println("The game lasted " + round + "rounds and took a total time of: " + formattedTime);
+			System.out.println("The game lasted " + round + " rounds and took a total time of: " + formattedTime);
 			System.out.println("Press enter to return to the main menu...");
 			input.nextLine();
 			cls();
