@@ -67,8 +67,8 @@ public class Board {
 		}
 		
 		//Check that position on the victims board
-		int x = guess.toUpperCase().charAt(0) - 'A' + 1;
-		int y = guess.charAt(1) - '1' + 1;
+		int x = guess.toUpperCase().charAt(0) - 'A';
+		int y = guess.charAt(1) - '1';
 		
 		if (victim.ships[y][x] == 'B') {
 			System.out.println("Hit!");
