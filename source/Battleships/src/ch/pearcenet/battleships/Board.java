@@ -175,9 +175,9 @@ public class Board {
 	public void drawBoard() {
 		
 		//Display our ships
-		System.out.println("Our ships:");
+		System.out.println("Your ships:");
 		drawMatrix(ships);
-		System.out.println("\nOur guesses:");
+		System.out.println("\nYour guesses:");
 		drawMatrix(guess);
 		
 	}
