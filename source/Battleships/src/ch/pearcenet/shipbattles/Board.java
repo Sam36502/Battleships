@@ -1,4 +1,4 @@
-package ch.pearcenet.battleships;
+package ch.pearcenet.shipbattles;
 
 public class Board {
 	

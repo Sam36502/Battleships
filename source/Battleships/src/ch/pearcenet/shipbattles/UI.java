@@ -1,4 +1,4 @@
-package ch.pearcenet.battleships;
+package ch.pearcenet.shipbattles;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class UI {
 	
 	//Current version
-	private static final String VERSION = "1.0.1";
+	private static final String VERSION = "1.1";
 	
 	//Input scanner
 	protected static Scanner input = new Scanner(System.in);
@@ -33,8 +33,14 @@ public class UI {
 					initBoards(9);
 					break;
 				
-				//Exit the program
+				//Set up a custom board
 				case 3:
+					System.out.println("What size board would you like? (1-99)");
+					initBoards(getInt());
+					break;
+				
+				//Exit the program
+				case 4:
 					System.out.println("Thank you for playing!");
 					isRunning = false;
 					System.exit(0);
@@ -110,7 +116,7 @@ public class UI {
 	private static void initBoards(int size) {
 		
 		//Use a custom shipset for different sizes
-		int[] shipSet = Board.STNDR_SHIPS;
+		int[] shipSet = new int[5];
 		switch (size) {
 			case 5:
 				shipSet = Board.SMALL_SHIPS;
@@ -120,15 +126,30 @@ public class UI {
 				shipSet = Board.STNDR_SHIPS;
 				break;
 			
-			//Future feature: Make any size possible with automatic ship sets
+			//Let the user pick the Ship types
 			default:
-				shipSet = Board.STNDR_SHIPS;
+				System.out.println("How many Aircraft Carriers would you like? (ACs are 5 long)");
+				shipSet[0] = getInt(1, 5);
+				
+				System.out.println("How many Battleships would you like? (Battleships are 4 long)");
+				shipSet[1] = getInt(1, 5);
+				
+				System.out.println("How many Cruisers would you like? (Cruisers are 3 long)");
+				shipSet[2] = getInt(1, 5);
+				
+				System.out.println("How many Destroyers would you like? (Destroyers are 2 long)");
+				shipSet[3] = getInt(1, 5);
+				
+				System.out.println("How many Submarines would you like? (Submarines are 1 long)");
+				shipSet[4] = getInt(1, 5);
+				
 				break;
 		}
 		
 		board1 = new Board(size, shipSet);
 		board2 = new Board(size, shipSet);
 		System.out.println("Randomizing game boards...");
+		System.out.println("If you have many ships on a small board this might take a while...");
 		
 		board1.setRandomLayout();
 		board2.setRandomLayout();
@@ -139,18 +160,22 @@ public class UI {
 	private static int printMenu() {
 		
 		//ASCII art banner
-		System.out.println("                                                            \n" + 
-				"_-_ _,,           ,    ,  ,,             ,,                   \n" + 
-				"   -/  )    _    ||   ||  ||             ||     '             \n" + 
-				"  ~||_<    < \\, =||= =||= ||  _-_   _-_, ||/\\\\ \\\\ -_-_   _-_, \n" + 
-				"   || \\\\   /-||  ||   ||  || || \\\\ ||_.  || || || || \\\\ ||_.  \n" + 
-				"   ,/--|| (( ||  ||   ||  || ||/    ~ || || || || || ||  ~ || \n" + 
-				"  _--_-'   \\/\\\\  \\\\,  \\\\, \\\\ \\\\,/  ,-_-  \\\\ |/ \\\\ ||-'  ,-_-  \n" + 
-				" (                                         _/     |/          \n" + 
-				"                                                  '           ");
+		System.out.println("\n" + 
+				"\n" + 
+				"                                                                      \n" + 
+				"  -_-/  ,,                   _-_ _,,           ,    ,  ,,             \n" + 
+				" (_ /   ||     '                -/  )    _    ||   ||  ||             \n" + 
+				"(_ --_  ||/\\\\ \\\\ -_-_          ~||_<    < \\, =||= =||= ||  _-_   _-_, \n" + 
+				"  --_ ) || || || || \\\\          || \\\\   /-||  ||   ||  || || \\\\ ||_.  \n" + 
+				" _/  )) || || || || ||          ,/--|| (( ||  ||   ||  || ||/    ~ || \n" + 
+				"(_-_-   \\\\ |/ \\\\ ||-'          _--_-'   \\/\\\\  \\\\,  \\\\, \\\\ \\\\,/  ,-_-  \n" + 
+				"          _/     |/           (                                       \n" + 
+				"                 '                                                    \n" + 
+				"\n" + 
+				"");
 		
 		//General info
-		System.out.println("\nBattleships v" + VERSION +
+		System.out.println("\nShip Battles v" + VERSION +
 							"\n by Samuel Pearce");
 		
 		//Menu options
@@ -158,10 +183,21 @@ public class UI {
 				+ "\nPlease choose:"
 				+ "\n [1] Play 5x5"
 				+ "\n [2] Play 9x9"
-				+ "\n [3] Exit game"
+				+ "\n [3] Play Custom Game"
+				+ "\n [4] Exit game"
 				+ "\n");
 		
-		//Get user input
+		//Return user's input
+		return getInt(1, 4);
+	}
+	
+	//Gets validated numbers without any range
+	protected static int getInt() {
+		return getInt(Integer.MIN_VALUE, Integer.MAX_VALUE);
+	}
+	
+	//Gets a number while validating for only numbers in a range
+	protected static int getInt(int min, int max) {
 		boolean isValid = false;
 		int num = 0;
 	
@@ -174,26 +210,27 @@ public class UI {
 			try {
 				num = Integer.parseInt(in);
 			} catch (NumberFormatException e) {
-				System.out.println("Please only enter numbers from 1-3");
+				System.out.println("Please only enter numbers");
 				isValid = false;
 				continue;
 			}
 			
 			//Verify it's within range
-			if (num < 1 || num > 3) {
-				System.out.println("Please only enter numbers from 1-3");
+			if (num < min || num > max) {
+				System.out.println("Please only enter numbers from "+min+" - "+max+".");
 				isValid = false;
 				continue;
 			}
 		}
 		
-		//Return user's input
 		return num;
 	}
 	
 	//Function to "clear" the screen
 	private static void cls() {
-		for (int i=0; i<500; i++) System.out.println("\n");
+		for (int i=0; i<500; i++) System.out.println("\b");
+		for (int i=0; i<500; i++) System.out.println(" ");
+		for (int i=0; i<500; i++) System.out.println("\b");
 	}
 
 }
